@@ -43,7 +43,9 @@ def Cluster( cursor_positions, num_clusters = 8 , vis=True, read_nwbfile=None ):
         trial_num = len(read_nwbfile.trials["id"].data)
         cursor_positions=[]
         for trial_id in range(trial_num):
-            cursor_positions.append(LastCursorPosition(trial_id, read_nwbfile, acqRate=acqRate))
+            cursor_positions.append(LastCursorPosition(trial_id, read_nwbfile, 
+                                                       #acqRate=acqRate
+                                                       ))
 
     cursor_positions = np.array(cursor_positions)
     # Use KMeans to cluster
