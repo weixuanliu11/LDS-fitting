@@ -150,8 +150,8 @@ def getData_for_LDS(filename, num_permutation, acqRate=60, newRate=60, num_clust
         lastTrialId = getLastTrialId(read_nwbfile, acqRate=acqRate, newRate=newRate)
         
         # Get the orginal input_list and spike list
-        input_matrix_list = InputMatrix_list(read_nwbfile, acqRate=60, newRate=60 )
-        spike_list = NeuralActivty_list(read_nwbfile, lastTrialId, acqRate=60, newRate=60)
+        input_matrix_list = InputMatrix_list(read_nwbfile, acqRate=acqRate, newRate=newRate )
+        spike_list = NeuralActivty_list(read_nwbfile, lastTrialId, acqRate=acqRate, newRate=newRate)
         print(input_matrix_list)
         # Get the original input matrix and spike matrix
         original_input = np.concatenate(input_matrix_list, axis=0)
