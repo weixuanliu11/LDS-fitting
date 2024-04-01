@@ -34,7 +34,7 @@ def LastCursorPosition(trial_id, read_nwbfile, vis = True,  acqRate=60 ):
 
 
 #Cluster the points using kmean and calculate the angle position of the centers of each cluster
-def Cluster( cursor_positions, num_clusters = 8 , vis=True, read_nwbfile=None ):
+def Cluster( cursor_positions, num_clusters = 8 , acqRate = 60, vis=True, read_nwbfile=None ):
     ''' Cluster a list of x-y cursor positions using kMeans '''
 
     ## read file if no cursor positions given
@@ -44,7 +44,7 @@ def Cluster( cursor_positions, num_clusters = 8 , vis=True, read_nwbfile=None ):
         cursor_positions=[]
         for trial_id in range(trial_num):
             cursor_positions.append(LastCursorPosition(trial_id, read_nwbfile, 
-                                                       #acqRate=acqRate
+                                                       acqRate=acqRate
                                                        ))
 
     cursor_positions = np.array(cursor_positions)
@@ -139,7 +139,7 @@ def targetMatrix(read_nwbfile, cursor_positions=None, acqRate=60, newRate=60, nu
         for trial_id in range(trial_num):
             cursor_positions.append(LastCursorPosition(trial_id, read_nwbfile, acqRate=acqRate))
 
-    cluster_assignments, center_xs, center_ys = Cluster(cursor_positions, num_clusters=num_clusters, vis = False)
+    cluster_assignments, center_xs, center_ys = Cluster(cursor_positions, num_clusters=num_clusters, acqRate = acqRate, vis = False)
 
     # The matrix of target
     target_matrix = np.zeros((timespan, 2))
@@ -173,10 +173,10 @@ def targetMatrix(read_nwbfile, cursor_positions=None, acqRate=60, newRate=60, nu
 #----------------------------------------------#
 
 
-def InputMatrix(read_nwbfile, acqRate=60, newRate=60 ):
+def InputMatrix(read_nwbfile, acqRate=60, newRate=60, num_clusters = 8):
     ''' 4D inputs with 2D target input and 2D feedback error input '''
     # Get input matrix from target matrix and cursor position matrix
-    target_matrix = targetMatrix(read_nwbfile, None, acqRate=acqRate, newRate=newRate )
+    target_matrix = targetMatrix(read_nwbfile, None, acqRate=acqRate, newRate=newRate, num_clusters = num_clusters)
     _, new_cursor_positions = Bin_spike_cursor(read_nwbfile,  acqRate=acqRate, newRate=newRate )
     feedback_matrix = target_matrix-new_cursor_positions
     input_matrix = np.concatenate((target_matrix, feedback_matrix), axis=1)
@@ -204,7 +204,7 @@ def getData_for_LDS( filename, acqRate=60, newRate=60, num_clusters = 8 , vis=Fa
             cursor_positions.append(LastCursorPosition(trial_id, read_nwbfile, acqRate=acqRate))
 
         # get input matrix
-        target_matrix = targetMatrix(read_nwbfile,cursor_positions, acqRate=acqRate, newRate=newRate )
+        target_matrix = targetMatrix(read_nwbfile,cursor_positions, acqRate=acqRate, newRate=newRate, num_clusters = num_clusters)
         feedback_matrix = target_matrix-new_cursor_positions
         input_matrix = np.concatenate((target_matrix, feedback_matrix), axis=1)
 
