@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import seaborn as sns
 import ssm
-from ssm.util import random_rotation
 from pynwb import NWBHDF5IO
 
 from data_loaders import *

@@ -25,7 +25,7 @@ def LastCursorPosition(trial_id, read_nwbfile, acqRate=60 ):
     Return a list of cursor positions at the end of each trial from an open NWB file. 
     :param trial_id: trial id
     :param read_nwbfile: the contents of NWB file.
-    :param acqRate: the acquired rate of data
+    :param acqRate: acquisition rate for data extraction
     :return: cursor_position
     '''
     #Get the start time and stop time
@@ -46,7 +46,7 @@ def Cluster( cursor_positions, num_clusters = 8 , acqRate = 60, vis=True, read_n
     Cluster a list of x-y cursor positions using kMeans 
     :param cursor_postions: an array of cursor positions at the end of all trials
     :param num_clusters: the number of clusters of the given cursor_positions
-    :param acqRate: the acquired rate of data
+    :param acqRate: the acquisition rate of data
     :param vis: whether we visualize the clusters and print the angular positions of 
                 every cursor position or not
     :return: cluster_assignments, center_xs, center_ys
@@ -108,7 +108,7 @@ def Bin_spike_cursor(read_nwbfile, acqRate=60, newRate=60):
     (Approximately) Downsample data from acqRate to newRate. 
     Spike counts are summed up and cursor positions are averaged. 
     :param read_nwbfile: the contents of NWB file.
-    :param acqRate: the acquired rate of data
+    :param acqRate: the acquisition rate of data
     :param newRate: the new rate of data
     :return: new_spike_counts, new_cursor_positions
     '''
@@ -150,7 +150,7 @@ def getLastTrialId(read_nwbfile, acqRate=60, newRate=60):
     '''
     Get the id of the last trial performing direct-reaching
     :param read_nwbfile: the contents of NWB file.
-    :param acqRate: the acquired rate of data
+    :param acqRate: the acquisition rate of data
     :param newRate: the new rate of data
     :return: lastTrialId
     '''
@@ -185,7 +185,7 @@ def CursorPositionMatrix_list(read_nwbfile, last_trial_id, acqRate=60, newRate =
     list[i] is a matrix of cursor positions in trial i
     :param read_nwbfile: the contents of NWB file.
     :param last_trial_id: the trial id of the last direct-reaching trial
-    :param acqRate: the acquired rate of data
+    :param acqRate: the acquisition rate of data
     :param newRate: the new rate of data
     :return: cursor_position_list
     '''
@@ -217,7 +217,7 @@ def targetMatrix_list(read_nwbfile, lastTrialId, cursor_positions=None, acqRate=
     :param read_nwbfile: the contents of NWB file.
     :param lastTrialId: the trial id of the last direct-reaching trial
     :param cursor_positions: cursor positions
-    :param acqRate: the acquired rate of data
+    :param acqRate: the acquisition rate of data
     :param newRate: the new rate of data
     :param num_clusters: the number of clusters of cursor_positions 
         at the end of all direct-reaching trials
@@ -267,7 +267,7 @@ def InputMatrix_list(read_nwbfile, acqRate=60, newRate=60, num_clusters = 8):
     ''' 
     4D inputs with 2D target input and 2D feedback error input 
     :param read_nwbfile: the contents of NWB file
-    :param acqRate: the acquired rate of data
+    :param acqRate: the acquisition rate of data
     :param newRate: the new rate of data
     :param num_clusters: the number of clusters of cursor_positions 
         at the end of all direct-reaching trials
@@ -310,7 +310,7 @@ def NeuralActivity_list(read_nwbfile, last_trial_id, acqRate=60, newRate = 60):
     Get the spike matrix list
     :param read_nwbfile: the contents of NWB file.
     :param lastTrialId: the trial id of the last direct-reaching trial
-    :param acqRate: the acquired rate of data
+    :param acqRate: the acquisition rate of data
     :param newRate: the new rate of data
     :return: spike_counts_list
     '''
@@ -344,7 +344,7 @@ def getData_for_LDS(filename, num_permutation, acqRate=60, newRate=60, num_clust
     Do permutation on original inputs and spikes counts with respect to trial order.
     :param filename: the name of the NWBfile
     :param num_permutation: the number of permutations we want to perform 
-    :param acqRate: the acquired rate of data
+    :param acqRate: the acquisition rate of data
     :param newRate: the new rate of data
     :param num_clusters: the number of clusters of cursor_positions 
         at the end of all direct-reaching trials
@@ -361,7 +361,6 @@ def getData_for_LDS(filename, num_permutation, acqRate=60, newRate=60, num_clust
         # Get the orginal input_list and spike list
         input_matrix_list = InputMatrix_list(read_nwbfile, acqRate=acqRate, newRate=newRate, num_clusters = num_clusters)
         spike_list = NeuralActivity_list(read_nwbfile, lastTrialId, acqRate=acqRate, newRate=newRate)
-        print(input_matrix_list)
         # Get the original input matrix and spike matrix
         original_input = np.concatenate(input_matrix_list, axis=0)
         original_spike = np.concatenate(spike_list, axis=0)
