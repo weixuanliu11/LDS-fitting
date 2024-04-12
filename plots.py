@@ -1,4 +1,3 @@
-from data_loaders import LastCursorPosition
 from data_loaders import Bin_spike_cursor
 from pynwb import NWBHDF5IO, NWBFile, TimeSeries
 from pynwb.behavior import Position, SpatialSeries
